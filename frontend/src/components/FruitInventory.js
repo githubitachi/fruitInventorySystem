@@ -9,10 +9,26 @@ const FruitInventory = () => {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedFruit, setSelectedFruit] = useState(null);
 
+  // DEBUG: Log everything on every render
+  console.log('🔄 RENDER - Loading:', loading, 'Fruits:', fruits, 'Error:', error);
+
+  // FIX 1: Remove fetchFruits from dependency array
   useEffect(() => {
-    console.log('🚀 FruitInventory component mounted');
+    console.log('🚀 useEffect triggered - calling fetchFruits');
     fetchFruits();
+  }, []); // Empty dependency array - only run once on mount
+
+  // FIX 2: Alternative - Use useCallback in your context
+  // If you can't modify the context, use this approach:
+  /*
+  const fetchFruitsRef = useRef(fetchFruits);
+  fetchFruitsRef.current = fetchFruits;
+
+  useEffect(() => {
+    console.log('🚀 useEffect triggered - calling fetchFruits');
+    fetchFruitsRef.current();
   }, []);
+  */
 
   const handleUpdate = (fruit) => {
     console.log('📝 Opening update modal for:', fruit);
@@ -20,180 +36,54 @@ const FruitInventory = () => {
     setShowUpdateModal(true);
   };
 
-  // Loading state
-  if (loading) {
-    return (
-      <div style={{ 
-        padding: '40px', 
-        textAlign: 'center',
-        fontSize: '18px',
-        color: '#666'
-      }}>
-        <div>🔄 Loading fruits...</div>
-      </div>
-    );
-  }
-
-  // Error state
-  if (error) {
-    return (
-      <div style={{ 
-        padding: '40px',
-        textAlign: 'center'
-      }}>
-        <div style={{
-          backgroundColor: '#f8d7da',
-          color: '#721c24',
-          padding: '15px',
-          borderRadius: '5px',
-          marginBottom: '20px'
-        }}>
-          <h3>❌ Error!</h3>
-          <p>{error}</p>
-        </div>
-        <button 
-          onClick={fetchFruits}
-          style={{
-            backgroundColor: '#dc3545',
-            color: 'white',
-            border: 'none',
-            padding: '10px 20px',
-            borderRadius: '5px',
-            cursor: 'pointer'
-          }}
-        >
-          🔄 Try Again
-        </button>
-      </div>
-    );
-  }
-
-  // Main component
   return (
-    <div style={{ 
-      padding: '30px',
-      maxWidth: '1200px',
-      margin: '0 auto',
-      fontFamily: 'Arial, sans-serif'
-    }}>
-      {/* Header */}
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+      {/* DEBUG INFO */}
       <div style={{ 
-        textAlign: 'center',
-        marginBottom: '30px',
-        borderBottom: '3px solid #007bff',
-        paddingBottom: '15px'
       }}>
-        <h1 style={{ 
-          color: '#333',
-          margin: '0',
-          fontSize: '2.5rem'
-        }}>
-          🍎 FRUIT INVENTORY SYSTEM
-        </h1>
-        <p style={{ 
-          color: '#666',
-          fontSize: '18px',
-          margin: '10px 0 0 0'
-        }}>
-          Total fruits in inventory: {fruits.length}
-        </p>
-      </div>
-      
-      {/* Add Button */}
-      <div style={{ marginBottom: '20px' }}>
-        <button 
-          onClick={() => setShowAddModal(true)}
-          style={{ 
-            backgroundColor: '#28a745', 
-            color: 'white', 
-            border: 'none', 
-            padding: '12px 24px',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            fontSize: '16px',
-            fontWeight: 'bold'
-          }}
-        >
-          ➕ Add New Fruit
-        </button>
       </div>
 
-      {/* Fruits Table */}
-      {fruits.length === 0 ? (
-        <div style={{ 
-          backgroundColor: '#d1ecf1', 
-          color: '#0c5460',
-          padding: '20px', 
-          borderRadius: '5px',
-          textAlign: 'center',
-          fontSize: '18px'
-        }}>
-          <p>📦 No fruits in inventory yet!</p>
-          <p>Click "Add New Fruit" to get started.</p>
-        </div>
-      ) : (
-        <div style={{ 
-          backgroundColor: 'white',
-          borderRadius: '8px',
-          boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-          overflow: 'hidden'
-        }}>
+      <h1>🍎 FRUIT INVENTORY SYSTEM</h1>
+
+      {/* ALWAYS SHOW FRUITS IF THEY EXIST */}
+      {fruits && fruits.length > 0 && (
+        <div>
+          <h2>✅ FRUITS FOUND: {fruits.length}</h2>
           <table style={{ 
             width: '100%', 
-            borderCollapse: 'collapse'
+            borderCollapse: 'collapse',
+            backgroundColor: 'white',
+            border: '1px solid #ddd'
           }}>
             <thead>
-              <tr style={{ 
-                backgroundColor: '#007bff',
-                color: 'white'
-              }}>
-                <th style={{ padding: '15px', textAlign: 'left', fontSize: '16px' }}>ID</th>
-                <th style={{ padding: '15px', textAlign: 'left', fontSize: '16px' }}>🏷️ Name</th>
-                <th style={{ padding: '15px', textAlign: 'left', fontSize: '16px' }}>📂 Type</th>
-                <th style={{ padding: '15px', textAlign: 'left', fontSize: '16px' }}>💰 Price</th>
-                <th style={{ padding: '15px', textAlign: 'left', fontSize: '16px' }}>📦 Stock</th>
-                <th style={{ padding: '15px', textAlign: 'center', fontSize: '16px' }}>⚙️ Actions</th>
+              <tr style={{ backgroundColor: '#007bff', color: 'white' }}>
+                <th style={{ padding: '10px', border: '1px solid #ddd' }}>ID</th>
+                <th style={{ padding: '10px', border: '1px solid #ddd' }}>Name</th>
+                <th style={{ padding: '10px', border: '1px solid #ddd' }}>Type</th>
+                <th style={{ padding: '10px', border: '1px solid #ddd' }}>Price</th>
+                <th style={{ padding: '10px', border: '1px solid #ddd' }}>Stock</th>
+                <th style={{ padding: '10px', border: '1px solid #ddd' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {fruits.map((fruit, index) => (
-                <tr key={fruit.fruitID} style={{ 
-                  backgroundColor: index % 2 === 0 ? '#f8f9fa' : 'white',
-                  borderBottom: '1px solid #dee2e6'
-                }}>
-                  <td style={{ padding: '12px', fontSize: '14px' }}>{fruit.fruitID}</td>
-                  <td style={{ padding: '12px', fontSize: '14px', fontWeight: 'bold' }}>{fruit.name}</td>
-                  <td style={{ padding: '12px', fontSize: '14px' }}>{fruit.type}</td>
-                  <td style={{ padding: '12px', fontSize: '14px', color: '#28a745', fontWeight: 'bold' }}>
-                    ₱{fruit.price.toFixed(2)}
-                  </td>
-                  <td style={{ padding: '12px', fontSize: '14px' }}>
-                    <span style={{
-                      backgroundColor: fruit.stock > 20 ? '#d4edda' : fruit.stock > 0 ? '#fff3cd' : '#f8d7da',
-                      color: fruit.stock > 20 ? '#155724' : fruit.stock > 0 ? '#856404' : '#721c24',
-                      padding: '4px 8px',
-                      borderRadius: '12px',
-                      fontSize: '12px',
-                      fontWeight: 'bold'
-                    }}>
-                      {fruit.stock} units
-                    </span>
-                  </td>
-                  <td style={{ padding: '12px', textAlign: 'center' }}>
+              {fruits.map((fruit) => (
+                <tr key={fruit.fruitID}>
+                  <td style={{ padding: '10px', border: '1px solid #ddd' }}>{fruit.fruitID}</td>
+                  <td style={{ padding: '10px', border: '1px solid #ddd' }}>{fruit.name}</td>
+                  <td style={{ padding: '10px', border: '1px solid #ddd' }}>{fruit.type}</td>
+                  <td style={{ padding: '10px', border: '1px solid #ddd' }}>₱{fruit.price.toFixed(2)}</td>
+                  <td style={{ padding: '10px', border: '1px solid #ddd' }}>{fruit.stock}</td>
+                  <td style={{ padding: '10px', border: '1px solid #ddd' }}>
                     <button 
                       onClick={() => handleUpdate(fruit)}
                       style={{ 
                         backgroundColor: '#ffc107', 
-                        color: '#212529',
                         border: 'none', 
-                        padding: '6px 12px',
-                        borderRadius: '4px',
-                        cursor: 'pointer',
-                        fontSize: '12px',
-                        fontWeight: 'bold'
+                        padding: '5px 10px',
+                        cursor: 'pointer'
                       }}
                     >
-                      📝 Update
+                      Update
                     </button>
                   </td>
                 </tr>
@@ -203,7 +93,50 @@ const FruitInventory = () => {
         </div>
       )}
 
-      {/* Add Modal */}
+      {/* ERROR DISPLAY */}
+      {error && (
+        <div style={{ 
+          backgroundColor: '#f8d7da', 
+          padding: '20px', 
+          margin: '20px 0',
+          border: '1px solid #f5c6cb'
+        }}>
+          <h3>❌ Error</h3>
+          <p>{error}</p>
+        </div>
+      )}
+
+      {/* NO FRUITS */}
+      {!loading && !error && (!fruits || fruits.length === 0) && (
+        <div style={{ 
+          backgroundColor: '#d1ecf1', 
+          padding: '20px', 
+          margin: '20px 0',
+          border: '1px solid #bee5eb'
+        }}>
+          <h3>📦 No Fruits Found</h3>
+          <p>No fruits available in the inventory.</p>
+        </div>
+      )}
+
+      {/* ADD BUTTON */}
+      <button 
+        onClick={() => setShowAddModal(true)}
+        style={{ 
+          backgroundColor: '#28a745', 
+          color: 'white', 
+          border: 'none', 
+          padding: '12px 24px',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          fontSize: '16px',
+          margin: '20px 0'
+        }}
+      >
+        ➕ Add New Fruit
+      </button>
+
+      {/* MODALS */}
       {showAddModal && (
         <div style={{ 
           position: 'fixed', 
@@ -222,24 +155,26 @@ const FruitInventory = () => {
             padding: '30px', 
             borderRadius: '10px',
             width: '90%',
-            maxWidth: '500px',
-            boxShadow: '0 10px 25px rgba(0,0,0,0.2)'
+            maxWidth: '500px'
           }}>
-            <h2 style={{ 
-              marginTop: 0, 
-              marginBottom: '20px',
-              color: '#333',
-              borderBottom: '2px solid #28a745',
-              paddingBottom: '10px'
-            }}>
-              ➕ ADD NEW FRUIT
-            </h2>
+            <h2>➕ ADD NEW FRUIT</h2>
             <AddFruitForm onClose={() => setShowAddModal(false)} />
+            <button 
+              onClick={() => setShowAddModal(false)}
+              style={{ 
+                backgroundColor: '#6c757d', 
+                color: 'white', 
+                border: 'none', 
+                padding: '10px 20px',
+                marginTop: '10px'
+              }}
+            >
+              Close
+            </button>
           </div>
         </div>
       )}
 
-      {/* Update Modal */}
       {showUpdateModal && selectedFruit && (
         <div style={{ 
           position: 'fixed', 
@@ -258,22 +193,25 @@ const FruitInventory = () => {
             padding: '30px', 
             borderRadius: '10px',
             width: '90%',
-            maxWidth: '500px',
-            boxShadow: '0 10px 25px rgba(0,0,0,0.2)'
+            maxWidth: '500px'
           }}>
-            <h2 style={{ 
-              marginTop: 0, 
-              marginBottom: '20px',
-              color: '#333',
-              borderBottom: '2px solid #ffc107',
-              paddingBottom: '10px'
-            }}>
-              📝 UPDATE FRUIT: {selectedFruit.name}
-            </h2>
+            <h2>📝 UPDATE FRUIT</h2>
             <UpdateFruitForm 
               fruit={selectedFruit} 
               onClose={() => setShowUpdateModal(false)} 
             />
+            <button 
+              onClick={() => setShowUpdateModal(false)}
+              style={{ 
+                backgroundColor: '#6c757d', 
+                color: 'white', 
+                border: 'none', 
+                padding: '10px 20px',
+                marginTop: '10px'
+              }}
+            >
+              Close
+            </button>
           </div>
         </div>
       )}
