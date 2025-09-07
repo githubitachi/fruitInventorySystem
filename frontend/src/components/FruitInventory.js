@@ -12,26 +12,14 @@ const FruitInventory = () => {
   // DEBUG: Log everything on every render
   console.log('🔄 RENDER - Loading:', loading, 'Fruits:', fruits, 'Error:', error);
 
-  // FIX 1: Remove fetchFruits from dependency array
+ 
   useEffect(() => {
     console.log('🚀 useEffect triggered - calling fetchFruits');
     fetchFruits();
-  }, []); // Empty dependency array - only run once on mount
-
-  // FIX 2: Alternative - Use useCallback in your context
-  // If you can't modify the context, use this approach:
-  /*
-  const fetchFruitsRef = useRef(fetchFruits);
-  fetchFruitsRef.current = fetchFruits;
-
-  useEffect(() => {
-    console.log('🚀 useEffect triggered - calling fetchFruits');
-    fetchFruitsRef.current();
-  }, []);
-  */
+  }, []); 
 
   const handleUpdate = (fruit) => {
-    console.log('📝 Opening update modal for:', fruit);
+    console.log('Opening update modal for:', fruit);
     setSelectedFruit(fruit);
     setShowUpdateModal(true);
   };
@@ -43,7 +31,7 @@ const FruitInventory = () => {
       }}>
       </div>
 
-      <h1>🍎 FRUIT INVENTORY SYSTEM</h1>
+      <h1>FRUIT INVENTORY SYSTEM</h1>
 
       {/* ALWAYS SHOW FRUITS IF THEY EXIST */}
       {fruits && fruits.length > 0 && (
@@ -101,7 +89,7 @@ const FruitInventory = () => {
           margin: '20px 0',
           border: '1px solid #f5c6cb'
         }}>
-          <h3>❌ Error</h3>
+          <h3> Error</h3>
           <p>{error}</p>
         </div>
       )}
@@ -114,7 +102,7 @@ const FruitInventory = () => {
           margin: '20px 0',
           border: '1px solid #bee5eb'
         }}>
-          <h3>📦 No Fruits Found</h3>
+          <h3>No Fruits Found</h3>
           <p>No fruits available in the inventory.</p>
         </div>
       )}
@@ -132,8 +120,7 @@ const FruitInventory = () => {
           fontSize: '16px',
           margin: '20px 0'
         }}
-      >
-        ➕ Add New Fruit
+      > Add New Fruit
       </button>
 
       {/* MODALS */}
@@ -157,7 +144,7 @@ const FruitInventory = () => {
             width: '90%',
             maxWidth: '500px'
           }}>
-            <h2>➕ ADD NEW FRUIT</h2>
+            <h2> ADD NEW FRUIT</h2>
             <AddFruitForm onClose={() => setShowAddModal(false)} />
             <button 
               onClick={() => setShowAddModal(false)}
@@ -195,7 +182,7 @@ const FruitInventory = () => {
             width: '90%',
             maxWidth: '500px'
           }}>
-            <h2>📝 UPDATE FRUIT</h2>
+            <h2>UPDATE FRUIT</h2>
             <UpdateFruitForm 
               fruit={selectedFruit} 
               onClose={() => setShowUpdateModal(false)} 

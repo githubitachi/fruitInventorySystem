@@ -30,7 +30,7 @@ const AddFruitForm = ({ onClose }) => {
         stock: parseInt(formData.stock)
       });
       
-      console.log('✅ Fruit added successfully!');
+      console.log('Fruit added successfully!');
       onClose(); // Close modal on success
       
       // Reset form
@@ -41,7 +41,7 @@ const AddFruitForm = ({ onClose }) => {
         stock: ''
       });
     } catch (error) {
-      console.error('❌ Error adding fruit:', error);
+      console.error(' Error adding fruit:', error);
     } finally {
       setIsSubmitting(false);
     }
@@ -85,7 +85,7 @@ const AddFruitForm = ({ onClose }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div style={{ marginBottom: '20px' }}>
-        <label style={labelStyle}>🏷️ Fruit Name:</label>
+        <label style={labelStyle}>Fruit Name:</label>
         <input
           type="text"
           name="name"
@@ -100,7 +100,7 @@ const AddFruitForm = ({ onClose }) => {
       </div>
 
       <div style={{ marginBottom: '20px' }}>
-        <label style={labelStyle}>📂 Type:</label>
+        <label style={labelStyle}>Type:</label>
         <input
           type="text"
           name="type"
@@ -115,7 +115,7 @@ const AddFruitForm = ({ onClose }) => {
       </div>
 
       <div style={{ marginBottom: '20px' }}>
-        <label style={labelStyle}>💰 Price (₱):</label>
+        <label style={labelStyle}>Price (₱):</label>
         <input
           type="number"
           step="0.01"
@@ -132,7 +132,7 @@ const AddFruitForm = ({ onClose }) => {
       </div>
 
       <div style={{ marginBottom: '30px' }}>
-        <label style={labelStyle}>📦 Initial Stock:</label>
+        <label style={labelStyle}>Initial Stock:</label>
         <input
           type="number"
           min="0"
@@ -160,7 +160,7 @@ const AddFruitForm = ({ onClose }) => {
           onMouseOver={(e) => e.target.style.backgroundColor = '#5a6268'}
           onMouseOut={(e) => e.target.style.backgroundColor = '#6c757d'}
         >
-          ❌ Cancel
+          Cancel
         </button>
         
         <button 
@@ -179,7 +179,7 @@ const AddFruitForm = ({ onClose }) => {
             if (!isSubmitting) e.target.style.backgroundColor = '#28a745';
           }}
         >
-          {isSubmitting ? '⏳ Adding...' : '✅ Add Fruit'}
+          {isSubmitting ? '⏳ Adding...' : ' Add Fruit'}
         </button>
       </div>
     </form>

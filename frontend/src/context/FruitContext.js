@@ -2,10 +2,7 @@ import React, { createContext, useContext, useReducer } from 'react';
 import axios from 'axios';
 
 const FruitContext = createContext();
-
-// TODO: Update this URL with your actual API port from Visual Studio
-// Look in VS output for: "Now listening on: https://localhost:XXXX"
-const API_BASE_URL = 'https://localhost:7017/api'; // Change 7139 to your port!
+const API_BASE_URL = 'https://localhost:7017/api'; 
 
 const fruitReducer = (state, action) => {
   switch (action.type) {
@@ -40,7 +37,7 @@ export const FruitProvider = ({ children }) => {
     try {
       console.log('🔍 Fetching fruits from:', `${API_BASE_URL}/fruits`);
       const response = await axios.get(`${API_BASE_URL}/fruits`);
-      console.log('✅ API Response:', response.data);
+      console.log('API Response:', response.data);
       dispatch({ type: 'SET_FRUITS', payload: response.data });
     } catch (error) {
       console.error('❌ API Error:', error.response?.data || error.message);
@@ -50,10 +47,10 @@ export const FruitProvider = ({ children }) => {
 
   const addFruit = async (fruit) => {
     try {
-      console.log('➕ Adding fruit:', fruit);
+      console.log(' Adding fruit:', fruit);
       await axios.post(`${API_BASE_URL}/fruits`, fruit);
       await fetchFruits(); // Refresh the list
-      console.log('✅ Fruit added successfully');
+      console.log('Fruit added successfully');
     } catch (error) {
       console.error('❌ Add Error:', error.response?.data || error.message);
       dispatch({ type: 'SET_ERROR', payload: `Failed to add fruit: ${error.message}` });
@@ -62,12 +59,12 @@ export const FruitProvider = ({ children }) => {
 
   const updateFruit = async (id, fruit) => {
     try {
-      console.log('📝 Updating fruit:', id, fruit);
+      console.log('Updating fruit:', id, fruit);
       await axios.put(`${API_BASE_URL}/fruits/${id}`, fruit);
       await fetchFruits(); // Refresh the list
-      console.log('✅ Fruit updated successfully');
+      console.log('Fruit updated successfully');
     } catch (error) {
-      console.error('❌ Update Error:', error.response?.data || error.message);
+      console.error('Update Error:', error.response?.data || error.message);
       dispatch({ type: 'SET_ERROR', payload: `Failed to update fruit: ${error.message}` });
     }
   };

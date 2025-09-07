@@ -30,7 +30,7 @@ const UpdateFruitForm = ({ fruit, onClose }) => {
         stock: parseInt(formData.stock)
       });
       
-      console.log('✅ Fruit updated successfully!');
+      console.log('Fruit updated successfully!');
       onClose(); // Close modal on success
     } catch (error) {
       console.error('❌ Error updating fruit:', error);
@@ -89,7 +89,7 @@ const UpdateFruitForm = ({ fruit, onClose }) => {
 
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '20px' }}>
-          <label style={labelStyle}>🏷️ Fruit Name:</label>
+          <label style={labelStyle}>Fruit Name:</label>
           <input
             type="text"
             name="name"
@@ -103,7 +103,7 @@ const UpdateFruitForm = ({ fruit, onClose }) => {
         </div>
 
         <div style={{ marginBottom: '20px' }}>
-          <label style={labelStyle}>📂 Type:</label>
+          <label style={labelStyle}>Type:</label>
           <input
             type="text"
             name="type"
@@ -117,7 +117,7 @@ const UpdateFruitForm = ({ fruit, onClose }) => {
         </div>
 
         <div style={{ marginBottom: '20px' }}>
-          <label style={labelStyle}>💰 Price (₱):</label>
+          <label style={labelStyle}>Price (₱):</label>
           <input
             type="number"
             step="0.01"
@@ -133,7 +133,7 @@ const UpdateFruitForm = ({ fruit, onClose }) => {
         </div>
 
         <div style={{ marginBottom: '30px' }}>
-          <label style={labelStyle}>📦 Stock Quantity:</label>
+          <label style={labelStyle}>Stock Quantity:</label>
           <input
             type="number"
             min="0"
@@ -145,9 +145,6 @@ const UpdateFruitForm = ({ fruit, onClose }) => {
             onFocus={(e) => e.target.style.borderColor = '#ffc107'}
             onBlur={(e) => e.target.style.borderColor = '#e9ecef'}
           />
-          <small style={{ color: '#6c757d', fontSize: '12px' }}>
-            💡 This will completely replace the current stock quantity
-          </small>
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -163,7 +160,7 @@ const UpdateFruitForm = ({ fruit, onClose }) => {
             onMouseOver={(e) => e.target.style.backgroundColor = '#5a6268'}
             onMouseOut={(e) => e.target.style.backgroundColor = '#6c757d'}
           >
-            ❌ Cancel
+            Cancel
           </button>
           
           <button 
@@ -182,7 +179,7 @@ const UpdateFruitForm = ({ fruit, onClose }) => {
               if (!isSubmitting) e.target.style.backgroundColor = '#ffc107';
             }}
           >
-            {isSubmitting ? '⏳ Updating...' : '📝 Update Fruit'}
+            {isSubmitting ? 'Updating...' : 'Update Fruit'}
           </button>
         </div>
       </form>
