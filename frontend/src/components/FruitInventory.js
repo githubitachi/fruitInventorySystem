@@ -36,7 +36,7 @@ const FruitInventory = () => {
       {/* ALWAYS SHOW FRUITS IF THEY EXIST */}
       {fruits && fruits.length > 0 && (
         <div>
-          <h2>✅ FRUITS FOUND: {fruits.length}</h2>
+          <h2>FRUITS FOUND: {fruits.length}</h2>
           <table style={{ 
             width: '100%', 
             borderCollapse: 'collapse',
